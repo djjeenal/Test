@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LocalMart OS – Owner Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --text:#111;
+  --muted:#666;
+  --primary:#2563eb;
+}
+
+[data-theme="dark"]{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --primary:#38bdf8;
+}
+
+*{box-sizing:border-box;font-family:'Inter',sans-serif;}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+}
+
+header{
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:var(--card);
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+
+.brand{
+  font-size:20px;
+  font-weight:700;
+}
+
+.toggle{
+  cursor:pointer;
+  padding:8px 12px;
+  border-radius:6px;
+  background:var(--primary);
+  color:white;
+  font-size:14px;
+}
+
+.container{
+  padding:24px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.card h3{
+  margin:0;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.card .value{
+  margin-top:8px;
+  font-size:28px;
+  font-weight:700;
+}
+
+.section{
+  margin:24px;
+}
+
+.table{
+  width:100%;
+  background:var(--card);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.table table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th, .table td{
+  padding:14px;
+  text-align:left;
+  border-bottom:1px solid rgba(0,0,0,.05);
+}
+
+.status-paid{color:green;font-weight:600;}
+.status-pending{color:red;font-weight:600;}
+
+@media(max-width:600px){
+  .section{margin:12px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">🏪 LocalMart OS</div>
+  <div class="toggle" onclick="toggleTheme()">Dark / Light</div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h3>💰 Aaj ki Sales</h3>
+    <div class="value">₹18,450</div>
+  </div>
+
+  <div class="card">
+    <h3>⏳ Pending Payments</h3>
+    <div class="value">₹3,200</div>
+  </div>
+
+  <div class="card">
+    <h3>📕 Total Udhar</h3>
+    <div class="value">₹27,800</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Customer</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#A102</td>
+          <td>9876543210</td>
+          <td>₹450</td>
+          <td class="status-paid">PAID</td>
+        </tr>
+        <tr>
+          <td>#A103</td>
+          <td>9123456789</td>
+          <td>₹320</td>
+          <td class="status-pending">PENDING</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){
+  document.body.dataset.theme =
+    document.body.dataset.theme === "dark" ? "" : "dark";
+}
+</script>
+
+</body>
+</html>

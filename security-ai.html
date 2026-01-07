@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security & AI System – LocalMart OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f1f5f9;
+}
+header{
+  background:#020617;
+  color:#fff;
+  padding:14px;
+  font-size:18px;
+}
+.container{
+  padding:16px;
+}
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:0 10px 20px rgba(0,0,0,.1);
+}
+button{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:#fff;
+  margin-top:10px;
+}
+.alert{
+  color:#dc2626;
+  font-weight:bold;
+}
+.success{
+  color:#16a34a;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔐 Security, Backup & AI</header>
+
+<div class="container">
+
+  <!-- SECURITY -->
+  <div class="card">
+    <h3>🔐 Security Status</h3>
+    <p>Role Based Access: <b>Enabled</b></p>
+    <p>Last Login: <span id="loginTime"></span></p>
+    <p class="alert" id="fraudAlert"></p>
+  </div>
+
+  <!-- BACKUP -->
+  <div class="card">
+    <h3>💾 Data Backup</h3>
+    <button onclick="backup()">Create Backup</button>
+    <p class="success" id="backupMsg"></p>
+  </div>
+
+  <!-- AI -->
+  <div class="card">
+    <h3>🤖 AI Suggestions</h3>
+    <p id="aiSales"></p>
+    <p id="aiUdhar"></p>
+    <p id="aiPayment"></p>
+  </div>
+
+</div>
+
+<script>
+// SECURITY
+let now = new Date().toLocaleString();
+document.getElementById("loginTime").innerText = now;
+
+// Simple fraud logic
+let pendingUdhar = 27800;
+if(pendingUdhar > 20000){
+  document.getElementById("fraudAlert").innerText =
+    "⚠ High Udhar Risk – Consider blocking new udhar";
+}
+
+// BACKUP
+function backup(){
+  let data = {
+    orders: "Order data placeholder",
+    payments: "Payment data placeholder",
+    udhar: "Udhar data placeholder",
+    time: new Date().toLocaleString()
+  };
+  let file = new Blob([JSON.stringify(data)], {type:"application/json"});
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(file);
+  a.download = "localmart-backup.json";
+  a.click();
+  document.getElementById("backupMsg").innerText =
+    "Backup downloaded successfully";
+}
+
+// AI SUGGESTIONS (RULE BASED – FUTURE AI READY)
+document.getElementById("aiSales").innerText =
+  "📈 AI: Evening time (6–9 PM) has highest sales";
+
+document.getElementById("aiUdhar").innerText =
+  "📕 AI: Udhar increasing faster than sales – tighten limits";
+
+document.getElementById("aiPayment").innerText =
+  "💳 AI: UPI customers pay faster than cash";
+</script>
+
+</body>
+</html>

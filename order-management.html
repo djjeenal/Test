@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Management – LocalMart OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f1f5f9;
+}
+header{
+  background:#020617;
+  color:#fff;
+  padding:14px;
+  font-size:18px;
+}
+.container{
+  padding:16px;
+}
+.filter{
+  display:flex;
+  gap:10px;
+  margin-bottom:14px;
+}
+select{
+  padding:10px;
+  border-radius:6px;
+}
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 6px 14px rgba(0,0,0,.12);
+}
+.status-paid{color:green;font-weight:bold;}
+.status-pending{color:red;font-weight:bold;}
+button{
+  margin-top:8px;
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  background:#2563eb;
+  color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>📦 Order & Payment Management</header>
+
+<div class="container">
+
+  <div class="filter">
+    <select onchange="filterOrders(this.value)">
+      <option value="all">All Payments</option>
+      <option value="cash">Cash</option>
+      <option value="upi">UPI</option>
+      <option value="udhar">Udhar</option>
+    </select>
+  </div>
+
+  <div id="orders"></div>
+
+</div>
+
+<script>
+let orders = [
+  {token:"A101", amount:120, mode:"cash", status:"paid"},
+  {token:"A102", amount:320, mode:"upi", status:"pending"},
+  {token:"A103", amount:450, mode:"udhar", status:"pending"}
+];
+
+function render(list){
+  const box = document.getElementById("orders");
+  box.innerHTML="";
+  list.forEach((o,i)=>{
+    box.innerHTML += `
+      <div class="card">
+        <b>Token:</b> ${o.token}<br>
+        <b>Amount:</b> ₹${o.amount}<br>
+        <b>Payment:</b> ${o.mode.toUpperCase()}<br>
+        <b>Status:</b>
+        <span class="${o.status==='paid'?'status-paid':'status-pending'}">
+          ${o.status.toUpperCase()}
+        </span><br>
+        ${o.status==='pending'
+          ? `<button onclick="markPaid(${i})">Mark Paid</button>`
+          : ``}
+      </div>
+    `;
+  });
+}
+
+function markPaid(i){
+  orders[i].status="paid";
+  render(orders);
+}
+
+function filterOrders(mode){
+  if(mode==="all") render(orders);
+  else render(orders.filter(o=>o.mode===mode));
+}
+
+render(orders);
+</script>
+
+</body>
+</html>

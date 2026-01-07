@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Udhar Control – Owner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Arial;
+  background:#f8fafc;
+  margin:0;
+}
+header{
+  background:#1e40af;
+  color:white;
+  padding:14px;
+  font-size:18px;
+}
+.box{
+  background:#fff;
+  margin:16px;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 8px 16px rgba(0,0,0,.1);
+}
+input{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+}
+button{
+  margin-top:12px;
+  padding:10px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+}
+.status{
+  margin-top:10px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>📕 Udhar Control Panel</header>
+
+<div class="box">
+  <h3>Udhar Enable / Disable</h3>
+  <button onclick="toggleUdhar()">Toggle Udhar</button>
+  <div class="status" id="udharStatus"></div>
+</div>
+
+<div class="box">
+  <h3>Set Limits</h3>
+  <input type="number" id="daily" placeholder="Daily Limit ₹">
+  <input type="number" id="monthly" placeholder="Monthly Limit ₹">
+  <button onclick="saveLimits()">Save Limits</button>
+</div>
+
+<script>
+function toggleUdhar(){
+  let status = localStorage.getItem("udharEnabled") === "true";
+  localStorage.setItem("udharEnabled", !status);
+  update();
+}
+
+function saveLimits(){
+  localStorage.setItem("dailyLimit", document.getElementById("daily").value);
+  localStorage.setItem("monthlyLimit", document.getElementById("monthly").value);
+  alert("Limits Saved");
+}
+
+function update(){
+  document.getElementById("udharStatus").innerText =
+    localStorage.getItem("udharEnabled") === "true"
+    ? "Udhar ENABLED"
+    : "Udhar DISABLED";
+}
+update();
+</script>
+
+</body>
+</html>

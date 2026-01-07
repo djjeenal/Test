@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Self Order – LocalMart OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  margin:0;
+  background:#f1f5f9;
+}
+header{
+  background:#2563eb;
+  color:#fff;
+  padding:14px;
+  text-align:center;
+  font-size:18px;
+}
+.container{
+  padding:16px;
+}
+.item{
+  background:#fff;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  background:#2563eb;
+  color:#fff;
+}
+.total{
+  font-size:18px;
+  font-weight:bold;
+  margin-top:10px;
+}
+select, input{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+}
+.checkout{
+  margin-top:16px;
+  width:100%;
+  padding:12px;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🛒 Self Order System</header>
+
+<div class="container">
+
+  <div class="item">
+    <span>Milk (1L)</span>
+    <button onclick="add(40)">Add ₹40</button>
+  </div>
+
+  <div class="item">
+    <span>Bread</span>
+    <button onclick="add(30)">Add ₹30</button>
+  </div>
+
+  <div class="item">
+    <span>Cold Drink</span>
+    <button onclick="add(50)">Add ₹50</button>
+  </div>
+
+  <div class="total">
+    Total: ₹<span id="total">0</span>
+  </div>
+
+  <select id="payment">
+    <option value="cash">Cash</option>
+    <option value="upi">UPI</option>
+    <option value="udhar">Udhar (Request)</option>
+  </select>
+
+  <input type="text" placeholder="Mobile Number" id="mobile">
+
+  <button class="checkout" onclick="checkout()">Confirm Order</button>
+
+</div>
+
+<script>
+let total = 0;
+
+function add(price){
+  total += price;
+  document.getElementById("total").innerText = total;
+}
+
+function checkout(){
+  if(total === 0){
+    alert("Please add items");
+    return;
+  }
+  localStorage.setItem("orderTotal", total);
+  localStorage.setItem("orderPayment", document.getElementById("payment").value);
+  localStorage.setItem("orderMobile", document.getElementById("mobile").value);
+  window.location.href="order-success.html";
+}
+</script>
+
+</body>
+</html>

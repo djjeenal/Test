@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Udhar Request</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Arial;
+  background:#fff7ed;
+  text-align:center;
+  padding-top:60px;
+}
+.box{
+  background:#fff;
+  width:90%;
+  max-width:360px;
+  margin:auto;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+button{
+  padding:10px 14px;
+  background:#f97316;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>📕 Udhar Request</h2>
+  <p id="msg"></p>
+  <button onclick="requestUdhar()">Request Udhar</button>
+</div>
+
+<script>
+let enabled = localStorage.getItem("udharEnabled") === "true";
+
+document.getElementById("msg").innerText =
+  enabled ? "Udhar available – Request karo"
+          : "Udhar abhi band hai";
+
+function requestUdhar(){
+  if(!enabled){
+    alert("Udhar disabled by owner");
+    return;
+  }
+  alert("Udhar request sent to owner");
+}
+</script>
+
+</body>
+</html>

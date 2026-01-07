@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Success</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Arial;
+  background:#ecfeff;
+  text-align:center;
+  padding-top:60px;
+}
+.box{
+  background:#fff;
+  margin:auto;
+  width:90%;
+  max-width:360px;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+.token{
+  font-size:32px;
+  font-weight:bold;
+  color:#2563eb;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>✅ Order Confirmed</h2>
+  <p>Your Token Number</p>
+  <div class="token" id="token"></div>
+
+  <p>Total Amount: ₹<span id="amount"></span></p>
+  <p>Payment Mode: <b><span id="mode"></span></b></p>
+
+  <p>Please wait for counter call 🙏</p>
+</div>
+
+<script>
+document.getElementById("amount").innerText =
+  localStorage.getItem("orderTotal");
+
+document.getElementById("mode").innerText =
+  localStorage.getItem("orderPayment");
+
+document.getElementById("token").innerText =
+  "A" + Math.floor(100 + Math.random()*900);
+</script>
+
+</body>
+</html>
