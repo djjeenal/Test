@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login • Smart Dukaan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:linear-gradient(160deg,#062a4d,#0a58a5);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card{
+  background:#ffffff;
+  width:90%;
+  max-width:380px;
+  padding:34px;
+  border-radius:20px;
+  box-shadow:0 20px 45px rgba(0,0,0,.25);
+  text-align:center;
+}
+h1{
+  margin:0;
+  font-size:26px;
+  color:#0a3d6f;
+}
+.subtitle{
+  margin-top:6px;
+  font-size:14px;
+  color:#666;
+}
+input{
+  width:100%;
+  padding:15px;
+  margin-top:16px;
+  font-size:15px;
+  border-radius:12px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  margin-top:26px;
+  padding:15px;
+  font-size:16px;
+  border:none;
+  border-radius:14px;
+  background:#0a6cff;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+button:active{
+  transform:scale(0.98);
+}
+.footer{
+  margin-top:22px;
+  font-size:12px;
+  color:#999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Smart Dukaan</h1>
+  <div class="subtitle">Admin Secure Login</div>
+
+  <input type="number" placeholder="Admin Mobile Number">
+  <input type="password" placeholder="Admin PIN">
+
+  <button onclick="checkClick()">Continue as Admin</button>
+
+  <div class="footer">Authorized Admins Only</div>
+</div>
+
+<script>
+function checkClick(){
+  alert("✅ Button click working!");
+}
+</script>
+
+</body>
+</html>
