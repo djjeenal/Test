@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= SECURITY GUARD ================= -->
+<script>
+if (!sessionStorage.getItem("admin_logged_in")) {
+  window.location.href = "admin-login.html";
+}
+</script>
+
+<!-- ================= STYLES ================= -->
+<style>
+:root{
+  --primary:#0b5ed7;
+  --secondary:#0dcaf0;
+  --bg:#f4f7fb;
+  --dark:#0f172a;
+  --card:#ffffff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Roboto;}
+
+body{
+  background:var(--bg);
+  color:#111;
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+  height:60px;
+  background:linear-gradient(90deg,var(--primary),var(--secondary));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+}
+
+.topbar h1{
+  font-size:18px;
+  font-weight:600;
+}
+
+.menu-btn{
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:240px;
+  background:var(--dark);
+  color:#fff;
+  position:fixed;
+  top:60px;
+  bottom:0;
+  left:0;
+  padding:15px;
+  transition:.3s;
+}
+
+.sidebar.hide{
+  left:-260px;
+}
+
+.sidebar a{
+  display:block;
+  padding:12px;
+  color:#cbd5e1;
+  text-decoration:none;
+  border-radius:6px;
+  margin-bottom:5px;
+}
+
+.sidebar a:hover{
+  background:#1e293b;
+  color:#fff;
+}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:240px;
+  padding:20px;
+  transition:.3s;
+}
+
+.main.full{
+  margin-left:0;
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.card h3{
+  font-size:14px;
+  color:#64748b;
+}
+
+.card p{
+  font-size:26px;
+  font-weight:600;
+  margin-top:5px;
+}
+
+/* ===== SECTIONS ===== */
+.section{
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.section h2{
+  font-size:16px;
+  margin-bottom:15px;
+}
+
+/* ===== MENU ITEMS ===== */
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+}
+
+.menu-item{
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+}
+
+.menu-item img{
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.menu-item button{
+  margin-top:8px;
+  width:100%;
+  padding:8px;
+  background:var(--primary);
+  border:none;
+  color:#fff;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* ===== LOGOUT ===== */
+.logout{
+  background:#dc2626;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <span class="menu-btn" onclick="toggleMenu()">☰</span>
+  <h1>Admin Dashboard</h1>
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar">
+  <a href="#">Dashboard</a>
+  <a href="#">Sell Items</a>
+  <a href="#">Orders</a>
+  <a href="#">Customers</a>
+  <a href="#">Udhari</a>
+  <a href="#">Payments</a>
+  <a href="#">Reports</a>
+  <a href="#">Settings</a>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main" id="main">
+
+  <!-- DASHBOARD CARDS -->
+  <div class="cards">
+    <div class="card"><h3>Today Sale</h3><p>₹0</p></div>
+    <div class="card"><h3>Orders</h3><p>0</p></div>
+    <div class="card"><h3>Customers</h3><p>0</p></div>
+    <div class="card"><h3>Pending Udhari</h3><p>₹0</p></div>
+  </div>
+
+  <!-- SELL ITEMS -->
+  <div class="section">
+    <h2>Sell Items (Photo Menu)</h2>
+    <div class="menu-grid">
+      <div class="menu-item">
+        <img src="https://via.placeholder.com/150">
+        <p>Item Name</p>
+        <button>Add</button>
+      </div>
+      <div class="menu-item">
+        <img src="https://via.placeholder.com/150">
+        <p>Item Name</p>
+        <button>Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UDHARI -->
+  <div class="section">
+    <h2>Udhari System</h2>
+    <p>Daily / Monthly limit • Auto calculation • Lock/Unlock ready</p>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="section">
+    <h2>Reports</h2>
+    <p>Daily • Monthly • Payment-wise • Customer-wise</p>
+  </div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("hide");
+  document.getElementById("main").classList.toggle("full");
+}
+
+function logout(){
+  sessionStorage.removeItem("admin_logged_in");
+  window.location.href="admin-login.html";
+}
+</script>
+
+</body>
+</html>
