@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gujarati Music Box</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { background:#050816; color:white; }
+.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08)}
+</style>
+</head>
+<body class="min-h-screen"><header class="p-5 border-b border-blue-900 sticky top-0 bg-[#050816]/90 backdrop-blur z-10">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-3 items-center justify-between">
+    <h1 class="text-3xl font-bold text-cyan-400">🎵 Gujarati Music Box</h1>
+    <input id="search" type="text" placeholder="Search songs..." class="w-full md:w-96 px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500 outline-none" />
+  </div>
+</header><section class="max-w-7xl mx-auto p-5">
+  <div class="glass rounded-3xl p-5 mb-6">
+    <h2 class="text-2xl font-bold mb-4 text-cyan-300">Upload Song</h2><div class="grid md:grid-cols-2 gap-4">
+  <input id="songTitle" placeholder="Song Title" class="bg-slate-900 p-3 rounded-xl" />
+  <input id="singer" placeholder="Singer Name" class="bg-slate-900 p-3 rounded-xl" />
+
+  <select id="category" class="bg-slate-900 p-3 rounded-xl">
+    <option>Gujarati Songs</option>
+    <option>Hindi Songs</option>
+    <option>Devotional</option>
+    <option>DJ Remix</option>
+    <option>Sad Songs</option>
+    <option>Love Songs</option>
+  </select>
+
+  <input id="thumb" type="file" accept="image/*" class="bg-slate-900 p-3 rounded-xl" />
+  <input id="audio" type="file" accept="audio/*" class="bg-slate-900 p-3 rounded-xl" />
+</div>
+
+<button onclick="uploadSong()" class="mt-4 bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-2xl font-bold">Upload Song</button>
+
+  </div>  <h2 class="text-2xl font-bold mb-4">Latest Songs</h2>
+  <div id="songs" class="grid md:grid-cols-3 gap-5"></div>
+</section><audio id="player" controls class="fixed bottom-0 left-0 w-full"></audio>
+
+<script>
+const CLOUD_NAME = 'djxxne8j0';
+const PRESET = 'gujarati_music_box';
+
+let songs = JSON.parse(localStorage.getItem('gmbSongs') || '[]');
+
+function saveSongs(){
+  localStorage.setItem('gmbSongs', JSON.stringify(songs));
+}
+
+async function uploadToCloudinary(file, type='auto') {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', PRESET);
+
+  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`;
+  const res = await fetch(url, { method: 'POST', body: formData });
+  return await res.json();
+}
+
+async function uploadSong() {
+  const title = document.getElementById('songTitle').value;
+  const singer = document.getElementById('singer').value;
+  const category = document.getElementById('category').value;
+  const thumb = document.getElementById('thumb').files[0];
+  const audio = document.getElementById('audio').files[0];
+
+  if(!title || !singer || !thumb || !audio){
+    alert('Please fill all fields');
+    return;
+  }
+
+  try {
+    alert('Uploading... please wait');
+
+    const thumbUpload = await uploadToCloudinary(thumb, 'image');
+    const audioUpload = await uploadToCloudinary(audio, 'video');
+
+    const song = {
+      title,
+      singer,
+      category,
+      thumb: thumbUpload.secure_url,
+      audio: audioUpload.secure_url,
+      time: Date.now()
+    };
+
+    songs.unshift(song);
+    saveSongs();
+    renderSongs();
+
+    alert('Song uploaded successfully!');
+  } catch(e) {
+    console.error(e);
+    alert('Upload failed');
+  }
+}
+
+function renderSongs(filter='') {
+  const box = document.getElementById('songs');
+  box.innerHTML = '';
+
+  songs
+  .filter(s => s.title.toLowerCase().includes(filter.toLowerCase()))
+  .forEach(song => {
+    box.innerHTML += `
+      <div class="glass rounded-3xl overflow-hidden p-4">
+        <img src="${song.thumb}" class="w-full h-56 object-cover rounded-2xl" />
+        <h3 class="text-xl font-bold mt-3">${song.title}</h3>
+        <p class="text-slate-300">${song.singer}</p>
+        <span class="text-cyan-400 text-sm">${song.category}</span>
+
+        <div class="flex gap-2 mt-4">
+          <button onclick="playSong('${song.audio}')" class="bg-cyan-500 px-4 py-2 rounded-xl">▶ Play</button>
+          <a href="${song.audio}" download class="bg-green-500 px-4 py-2 rounded-xl">⬇ Download</a>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function playSong(url){
+  const player = document.getElementById('player');
+  player.src = url;
+  player.play();
+}
+
+document.getElementById('search').addEventListener('input', (e)=>{
+  renderSongs(e.target.value);
+});
+
+renderSongs();
+</script></body>
+</html>
