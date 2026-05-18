@@ -1418,6 +1418,11 @@ updateFavorites();
 <script type="module">
 
 import {
+initializeApp
+} from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+
+import {
 doc,
 getDoc,
 setDoc,
@@ -1428,7 +1433,32 @@ getFirestore
 from
 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-const db = getFirestore();
+
+const firebaseConfig = {
+apiKey:
+'AIzaSyDA9uockP50yK8WtE-b9SNtDGth7AeEgjI',
+
+authDomain:
+'kakateastall-64dc3.firebaseapp.com',
+
+projectId:
+'kakateastall-64dc3',
+
+storageBucket:
+'kakateastall-64dc3.firebasestorage.app',
+
+messagingSenderId:
+'724861765174',
+
+appId:
+'1:724861765174:web:75805dadd5898ea4cd7a97'
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 setTimeout(()=>{
 
