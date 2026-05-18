@@ -990,20 +990,15 @@ if(oldPlayer && premiumPlayer){
 
 /* OLD PLAYER STOP */
 oldPlayer.pause();
-oldPlayer.currentTime = 0;
+oldPlayer.volume = 0;
+oldPlayer.muted = true;
 
-const currentSong =
+/* NEW PLAYER PLAY */
+premiumPlayer.src =
 oldPlayer.src;
 
-oldPlayer.src = '';
-oldPlayer.load();
-
-/* PLAY SAME SONG */
-premiumPlayer.src =
-currentSong;
-
+premiumPlayer.currentTime = 0;
 premiumPlayer.play();
-}
 
 const card =
 btn.closest('.song-card');
