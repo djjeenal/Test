@@ -1818,29 +1818,52 @@ document.getElementById(
 );
 
 
-/* PLAY / PAUSE */
-playPauseBtn
-.addEventListener(
+/* PLAY / PAUSE FIXED */
+playPauseBtn.addEventListener(
 'click',
 ()=>{
 
-if(
-premiumPlayer.paused
-){
+if(premiumPlayer.src === ''){
+return;
+}
+
+if(premiumPlayer.paused){
 
 premiumPlayer.play();
 
-playPauseBtn.innerText =
+playPauseBtn.innerHTML =
 '⏸ Pause';
 
 }else{
 
 premiumPlayer.pause();
 
-playPauseBtn.innerText =
+playPauseBtn.innerHTML =
 '▶ Play';
 
 }
+
+}
+);
+
+
+/* AUTO BUTTON CHANGE */
+premiumPlayer.addEventListener(
+'play',
+()=>{
+
+playPauseBtn.innerHTML =
+'⏸ Pause';
+
+}
+);
+
+premiumPlayer.addEventListener(
+'pause',
+()=>{
+
+playPauseBtn.innerHTML =
+'▶ Play';
 
 }
 );
