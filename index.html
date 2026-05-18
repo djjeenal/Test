@@ -1486,6 +1486,7 @@ updateFavorites();
 <script type="module">
 
 import {
+getFirestore,
 doc,
 getDoc,
 setDoc,
@@ -1496,16 +1497,24 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
+const db =
+getFirestore();
+
+
 window.realPlayCounter =
 async function(songTitle){
 
 try{
 
+const safeId =
+songTitle
+.replace(/[^a-zA-Z0-9]/g,'');
+
 const songRef =
 doc(
 db,
 "songPlays",
-songTitle
+safeId
 );
 
 const snap =
@@ -1517,22 +1526,19 @@ await setDoc(
 songRef,
 {
 title:songTitle,
-plays:1,
-updatedAt:Date.now()
+plays:1
 }
 );
 
 return 1;
 
-}else{
+}
 
 await updateDoc(
 songRef,
 {
 plays:
-increment(1),
-updatedAt:
-Date.now()
+increment(1)
 }
 );
 
@@ -1540,13 +1546,14 @@ const updated =
 await getDoc(songRef);
 
 return updated.data()
-.plays;
-
-}
+.plays || 0;
 
 }catch(e){
 
-console.log(e);
+console.log(
+"Firebase Error:",
+e
+);
 
 return 0;
 
@@ -1555,16 +1562,21 @@ return 0;
 }
 
 
+
 window.getPlayCount =
 async function(songTitle){
 
 try{
 
+const safeId =
+songTitle
+.replace(/[^a-zA-Z0-9]/g,'');
+
 const songRef =
 doc(
 db,
 "songPlays",
-songTitle
+safeId
 );
 
 const snap =
