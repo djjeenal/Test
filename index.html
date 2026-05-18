@@ -1,135 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Gujarati Music Box Premium</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
 body{
 background:#020617;
-color:#fff;
-font-family:Arial,sans-serif;
+color:white;
+overflow-x:hidden;
 }
+
+.glass{
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 8px 32px rgba(0,0,0,.35);
+}
+
+.song-card{
+transition:.35s;
+border-radius:24px;
+overflow:hidden;
+}
+
+.song-card:hover{
+transform:translateY(-8px);
+}
+
+.hero-bg{
+background:
+linear-gradient(
+135deg,
+rgba(6,182,212,.15),
+rgba(59,130,246,.08)
+);
+}
+
 .hide{
 display:none;
 }
-.song-card{
-transition:0.3s;
+
+::-webkit-scrollbar{
+width:6px;
 }
-.song-card:hover{
-transform:translateY(-5px);
+
+::-webkit-scrollbar-thumb{
+background:#06b6d4;
+border-radius:20px;
 }
 </style>
-
 </head>
 
-<body class="min-h-screen p-4">
+<body>
 
-<div class="max-w-6xl mx-auto">
+<!-- HEADER -->
+<header class="sticky top-0 z-50 backdrop-blur bg-[#020617cc] border-b border-cyan-900/30">
+<div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
 
-<div class="flex justify-between items-center mb-5">
-<h1 class="text-3xl font-bold text-cyan-400">
+<h1 class="text-2xl md:text-3xl font-bold text-cyan-400">
 🎵 Gujarati Music Box
 </h1>
 
-<button onclick="adminLogin()"
-class="bg-cyan-600 px-4 py-2 rounded-xl">
+<div class="flex items-center gap-3">
+
+<button
+onclick="adminLogin()"
+class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-xl font-semibold">
 Admin
 </button>
-</div>
-
-<div class="flex gap-2 mb-4 overflow-auto">
-
-<button onclick="filterSongs('all')"
-class="bg-slate-800 px-4 py-2 rounded-xl">
-All
-</button>
-
-<button onclick="filterSongs('Gujarati Songs')"
-class="bg-slate-800 px-4 py-2 rounded-xl">
-Gujarati
-</button>
-
-<button onclick="filterSongs('Hindi Songs')"
-class="bg-slate-800 px-4 py-2 rounded-xl">
-Hindi
-</button>
-
-<button onclick="filterSongs('Devotional')"
-class="bg-slate-800 px-4 py-2 rounded-xl">
-Devotional
-</button>
-
-<button onclick="filterSongs('DJ Remix')"
-class="bg-slate-800 px-4 py-2 rounded-xl">
-DJ Remix
-</button>
 
 </div>
+</div>
+</header>
 
-<input id="search"
-class="w-full p-3 rounded-xl bg-slate-900 mb-4"
-placeholder="Search songs...">
+<!-- HERO SECTION -->
+<section class="hero-bg py-10 px-4">
+<div class="max-w-7xl mx-auto">
 
-<div id="adminPanel"
-class="hide bg-slate-900 p-4 rounded-2xl mb-5">
+<div class="glass rounded-[35px] p-8">
 
-<h2 class="font-bold text-xl mb-3">
-Upload Song
+<div class="grid md:grid-cols-2 gap-8 items-center">
+
+<div>
+
+<span class="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full text-sm">
+🔥 Premium Music Platform
+</span>
+
+<h2 class="text-4xl md:text-6xl font-bold mt-5 leading-tight">
+Listen Unlimited
+<span class="text-cyan-400">
+Gujarati Music
+</span>
 </h2>
 
-<div class="grid md:grid-cols-2 gap-3">
+<p class="text-slate-300 mt-5 text-lg">
+Stream, Play, Download & Enjoy premium Gujarati and Hindi songs with app-like experience.
+</p>
 
-<input id="title"
-class="p-3 rounded-xl bg-slate-800"
-placeholder="Song Title">
+<div class="flex gap-3 mt-6">
 
-<input id="singer"
-class="p-3 rounded-xl bg-slate-800"
-placeholder="Singer Name">
+<button class="bg-cyan-500 px-6 py-3 rounded-2xl font-semibold">
+▶ Explore Music
+</button>
 
-<select id="category"
-class="p-3 rounded-xl bg-slate-800">
+<button class="glass px-6 py-3 rounded-2xl">
+🎧 Trending
+</button>
 
+</div>
+
+</div>
+
+<div>
+<img
+src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop"
+class="rounded-[35px] w-full h-[320px] object-cover">
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- SEARCH -->
+<section class="max-w-7xl mx-auto px-4 mt-6">
+
+<input
+id="search"
+placeholder="Search songs, singer..."
+class="w-full p-4 rounded-2xl bg-slate-900 border border-cyan-800 outline-none text-white">
+
+</section>
+
+<!-- CATEGORY -->
+<section class="max-w-7xl mx-auto px-4 mt-5">
+
+<div class="flex gap-3 overflow-auto pb-2">
+
+<button onclick="filterSongs('all')" class="glass px-5 py-3 rounded-2xl whitespace-nowrap">All</button>
+
+<button onclick="filterSongs('Gujarati Songs')" class="glass px-5 py-3 rounded-2xl whitespace-nowrap">Gujarati</button>
+
+<button onclick="filterSongs('Hindi Songs')" class="glass px-5 py-3 rounded-2xl whitespace-nowrap">Hindi</button>
+
+<button onclick="filterSongs('Devotional')" class="glass px-5 py-3 rounded-2xl whitespace-nowrap">Devotional</button>
+
+<button onclick="filterSongs('DJ Remix')" class="glass px-5 py-3 rounded-2xl whitespace-nowrap">DJ Remix</button>
+
+</div>
+
+</section>
+
+<!-- ADMIN PANEL -->
+<section class="max-w-7xl mx-auto px-4 mt-6">
+
+<div id="adminPanel" class="hide glass rounded-[35px] p-6">
+
+<h2 class="text-2xl font-bold mb-5">
+⬆ Upload Song
+</h2>
+
+<div class="grid md:grid-cols-2 gap-4">
+
+<input id="title" placeholder="Song Title" class="bg-slate-900 p-4 rounded-2xl">
+
+<input id="singer" placeholder="Singer Name" class="bg-slate-900 p-4 rounded-2xl">
+
+<select id="category" class="bg-slate-900 p-4 rounded-2xl">
 <option>Gujarati Songs</option>
 <option>Hindi Songs</option>
 <option>Devotional</option>
 <option>DJ Remix</option>
-
 </select>
 
-<input id="thumbnail"
-type="file"
-accept="image/*"
-class="p-3 rounded-xl bg-slate-800">
+<input id="thumbnail" type="file" accept="image/*" class="bg-slate-900 p-4 rounded-2xl">
 
-<input id="song"
-type="file"
-accept="audio/*"
-class="p-3 rounded-xl bg-slate-800">
+<input id="song" type="file" accept="audio/*" class="bg-slate-900 p-4 rounded-2xl">
 
 </div>
 
-<button onclick="uploadSong()"
-class="bg-cyan-500 px-5 py-3 rounded-xl mt-4">
-Upload
+<button
+onclick="uploadSong()"
+class="mt-5 bg-cyan-500 px-6 py-3 rounded-2xl font-bold">
+Upload Song
 </button>
 
 </div>
 
-<div id="songs"
-class="grid md:grid-cols-3 gap-4">
+</section>
+
+<!-- SONGS -->
+<section class="max-w-7xl mx-auto px-4 mt-8 pb-40">
+
+<h2 class="text-2xl font-bold mb-5">
+🎵 Latest Songs
+</h2>
+
+<div id="songs" class="grid md:grid-cols-3 gap-5"></div>
+
+</section>
+
+<!-- PLAYER -->
+<div class="fixed bottom-0 left-0 w-full glass border-t border-cyan-900/30 p-4 z-50">
+
+<div class="max-w-7xl mx-auto flex items-center gap-4">
+
+<div class="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-2xl">
+🎵
+</div>
+
+<div class="flex-1">
+<p class="font-semibold" id="nowPlaying">
+No song playing
+</p>
+
+<audio id="player" controls class="w-full mt-1"></audio>
 </div>
 
 </div>
-
-<audio id="player"
-controls
-class="fixed bottom-0 left-0 w-full">
-</audio>
+</div>
 
 <script type="module">
   import {
@@ -151,6 +255,7 @@ orderBy
 
 
 const firebaseConfig = {
+
 apiKey:
 'AIzaSyDA9uockP50yK8WtE-b9SNtDGth7AeEgjI',
 
@@ -170,11 +275,13 @@ appId:
 '1:724861765174:web:75805dadd5898ea4cd7a97'
 };
 
+
 const app =
 initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
+
 
 const CLOUD_NAME =
 'djxxne8j0';
@@ -182,21 +289,24 @@ const CLOUD_NAME =
 const PRESET =
 'gujarati_music_box';
 
+
 const ADMIN_PASSWORD =
 'GujaratiMusic#Box2026';
+
 
 let isAdmin = false;
 let currentFilter = 'all';
 
 
+
 window.adminLogin = () => {
 
-const p =
+const pass =
 prompt(
 'Enter Admin Password'
 );
 
-if (p === ADMIN_PASSWORD) {
+if(pass === ADMIN_PASSWORD){
 
 isAdmin = true;
 
@@ -205,7 +315,9 @@ document
 'adminPanel'
 )
 .classList
-.remove('hide');
+.remove(
+'hide'
+);
 
 loadSongs();
 
@@ -213,7 +325,7 @@ alert(
 'Admin Login Success'
 );
 
-} else {
+}else{
 
 alert(
 'Wrong Password'
@@ -221,6 +333,7 @@ alert(
 
 }
 };
+
 
 
 async function uploadCloud(
@@ -241,7 +354,7 @@ fd.append(
 PRESET
 );
 
-const r =
+const response =
 await fetch(
 `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`,
 {
@@ -250,37 +363,47 @@ body:fd
 }
 );
 
-return await r.json();
+return await response.json();
+
 }
+
 
 
 window.uploadSong =
 async () => {
 
 const title =
-document.getElementById(
+document
+.getElementById(
 'title'
 ).value;
 
 const singer =
-document.getElementById(
+document
+.getElementById(
 'singer'
 ).value;
 
 const category =
-document.getElementById(
+document
+.getElementById(
 'category'
 ).value;
 
 const thumbnail =
-document.getElementById(
+document
+.getElementById(
 'thumbnail'
-).files[0];
+)
+.files[0];
 
 const song =
-document.getElementById(
+document
+.getElementById(
 'song'
-).files[0];
+)
+.files[0];
+
 
 if(
 !title ||
@@ -288,26 +411,31 @@ if(
 !thumbnail ||
 !song
 ){
+
 return alert(
-'Fill all fields'
+'Please fill all fields'
 );
+
 }
 
+
 alert(
-'Uploading...'
+'Uploading Song...'
 );
 
-const img =
+
+const imageUpload =
 await uploadCloud(
 thumbnail,
 'image'
 );
 
-const aud =
+const audioUpload =
 await uploadCloud(
 song,
 'video'
 );
+
 
 await addDoc(
 collection(
@@ -320,25 +448,26 @@ singer,
 category,
 
 thumbnail:
-img.secure_url,
+imageUpload.secure_url,
 
 audio:
-aud.secure_url,
+audioUpload.secure_url,
 
 createdAt:
 Date.now()
 }
 );
 
+
 alert(
-'Song Uploaded'
+'Song Uploaded Successfully'
 );
 
 loadSongs();
 
 };
   window.deleteSong =
-async (id) => {
+async(id)=>{
 
 const ok =
 confirm(
@@ -359,14 +488,17 @@ loadSongs();
 };
 
 
+
 window.filterSongs =
-(category) => {
+(category)=>{
 
 currentFilter =
 category;
 
 loadSongs();
+
 };
+
 
 
 async function loadSongs(){
@@ -377,7 +509,8 @@ document.getElementById(
 );
 
 box.innerHTML =
-'Loading...';
+'Loading Songs...';
+
 
 const snap =
 await getDocs(
@@ -393,6 +526,7 @@ orderBy(
 )
 );
 
+
 const search =
 document
 .getElementById(
@@ -401,25 +535,31 @@ document
 .value
 .toLowerCase();
 
+
 box.innerHTML =
 '';
+
 
 snap.forEach((d)=>{
 
 const s =
 d.data();
 
+
 if(
-currentFilter !== 'all' &&
+currentFilter !== 'all'
+&&
 s.category !== currentFilter
 ){
 return;
 }
 
+
 if(
 search &&
 !(
-`${s.title} ${s.singer}`
+`${s.title}
+${s.singer}`
 .toLowerCase()
 .includes(search)
 )
@@ -427,66 +567,75 @@ search &&
 return;
 }
 
+
+
 box.innerHTML += `
-<div class="song-card bg-slate-900 rounded-2xl p-3">
+
+<div class="song-card glass p-4">
 
 <img
 src="${s.thumbnail}"
-class="w-full h-48 object-cover rounded-xl">
+class="w-full h-[240px] object-cover rounded-[24px]"
+>
 
-<h3 class="font-bold mt-2 text-lg">
+<div class="mt-4">
+
+<h3 class="font-bold text-xl">
 ${s.title}
 </h3>
 
-<p>
+<p class="text-slate-300">
 ${s.singer}
 </p>
 
-<p class="text-cyan-400 text-sm">
+<p class="text-cyan-400 text-sm mt-1">
 ${s.category}
 </p>
 
-<div class="flex gap-2 mt-3">
+<div class="flex gap-2 mt-4 flex-wrap">
 
 <button
 onclick="
 document.getElementById('player').src='${s.audio}';
-document.getElementById('player').play()
+document.getElementById('player').play();
+document.getElementById('nowPlaying').innerText='${s.title}';
 "
-class="bg-cyan-500 px-3 py-2 rounded-lg">
-
+class="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-xl font-semibold"
+>
 ▶ Play
-
 </button>
 
 <a
 href="${s.audio}"
 download
-class="bg-green-500 px-3 py-2 rounded-lg">
-
+class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-xl font-semibold"
+>
 ⬇ Download
-
 </a>
 
 ${isAdmin ? `
 
 <button
 onclick="deleteSong('${d.id}')"
-class="bg-red-600 px-3 py-2 rounded-lg">
-
-Delete
-
+class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl font-semibold"
+>
+🗑 Delete
 </button>
 
 ` : ''}
 
 </div>
+
 </div>
+
+</div>
+
 `;
 
 });
 
 }
+
 
 
 document
@@ -497,6 +646,7 @@ document
 'input',
 loadSongs
 );
+
 
 loadSongs();
 
