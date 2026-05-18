@@ -929,22 +929,6 @@ class="player-audio">
 
 <script>
 
-setTimeout(()=>{
-
-const oldPlayer =
-document.getElementById(
-'player'
-);
-
-if(oldPlayer){
-oldPlayer.style.display =
-'none';
-}
-
-},1000);
-
-
-
 document.addEventListener(
 'click',
 function(e){
@@ -954,7 +938,6 @@ e.target.closest('button');
 
 if(!btn) return;
 
-
 if(
 btn.innerText.includes('Play')
 ){
@@ -962,60 +945,49 @@ btn.innerText.includes('Play')
 setTimeout(()=>{
 
 const oldPlayer =
-document.getElementById(
-'player'
-);
+document.getElementById('player');
 
 const premiumPlayer =
-document.getElementById(
-'premiumPlayer'
-);
+document.getElementById('premiumPlayer');
 
 const nowTitle =
-document.getElementById(
-'premiumSongTitle'
-);
+document.getElementById('premiumSongTitle');
 
 const thumb =
-document.getElementById(
-'playerThumbnail'
-);
+document.getElementById('playerThumbnail');
 
-if(
-oldPlayer &&
-premiumPlayer
-){
+if(oldPlayer && premiumPlayer){
 
+/* OLD PLAYER STOP */
+oldPlayer.pause();
+oldPlayer.volume = 0;
+oldPlayer.muted = true;
+
+/* NEW PLAYER PLAY */
 premiumPlayer.src =
 oldPlayer.src;
 
+premiumPlayer.currentTime = 0;
 premiumPlayer.play();
 
-
 const card =
-btn.closest(
-'.song-card'
-);
+btn.closest('.song-card');
 
 if(card){
 
 const title =
-card.querySelector(
-'h3'
-)?.innerText;
+card.querySelector('h3')
+?.innerText;
 
 const image =
-card.querySelector(
-'img'
-)?.src;
+card.querySelector('img')
+?.src;
 
 nowTitle.innerText =
-title ||
-'Now Playing';
+title || 'Now Playing';
 
 thumb.src =
-image ||
-thumb.src;
+image || thumb.src;
 
 }
 
