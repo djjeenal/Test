@@ -991,8 +991,9 @@ document.getElementById('playerThumbnail');
 
 if(oldPlayer && premiumPlayer){
 
-/* OLD PLAYER STOP */
+/* OLD PLAYER FULL STOP */
 oldPlayer.pause();
+oldPlayer.currentTime = 0;
 oldPlayer.volume = 0;
 oldPlayer.muted = true;
 
