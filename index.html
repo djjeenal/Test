@@ -1,109 +1,506 @@
-<!-- Replace ALL existing code in index.html with this --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gujarati Music Box</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gujarati Music Box Premium</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+background:#020617;
+color:#fff;
+font-family:Arial,sans-serif;
+}
+.hide{
+display:none;
+}
+.song-card{
+transition:0.3s;
+}
+.song-card:hover{
+transform:translateY(-5px);
+}
+</style>
+
 </head>
-<body class="bg-slate-950 text-white min-h-screen">
-  <div class="max-w-6xl mx-auto p-4">
-    <h1 class="text-4xl font-bold text-cyan-400 mb-4">🎵 Gujarati Music Box</h1><div class="bg-slate-900 p-4 rounded-2xl mb-6">
-  <h2 class="text-xl font-bold mb-3">Upload Song</h2>
-  <div class="grid md:grid-cols-2 gap-3">
-    <input id="title" class="p-3 rounded-xl bg-slate-800" placeholder="Song Title">
-    <input id="singer" class="p-3 rounded-xl bg-slate-800" placeholder="Singer Name">
-    <select id="category" class="p-3 rounded-xl bg-slate-800">
-      <option>Gujarati Songs</option>
-      <option>Hindi Songs</option>
-      <option>Devotional</option>
-      <option>DJ Remix</option>
-    </select>
-    <input id="thumbnail" type="file" accept="image/*" class="p-3 rounded-xl bg-slate-800">
-    <input id="song" type="file" accept="audio/*" class="p-3 rounded-xl bg-slate-800">
-  </div>
-  <button onclick="uploadSong()" class="bg-cyan-500 px-5 py-3 rounded-xl mt-4 font-bold">Upload Song</button>
+
+<body class="min-h-screen p-4">
+
+<div class="max-w-6xl mx-auto">
+
+<div class="flex justify-between items-center mb-5">
+<h1 class="text-3xl font-bold text-cyan-400">
+🎵 Gujarati Music Box
+</h1>
+
+<button onclick="adminLogin()"
+class="bg-cyan-600 px-4 py-2 rounded-xl">
+Admin
+</button>
 </div>
 
-<input id="search" placeholder="Search songs..." class="w-full p-3 rounded-xl bg-slate-900 mb-4">
-<div id="songs" class="grid md:grid-cols-3 gap-4"></div>
+<div class="flex gap-2 mb-4 overflow-auto">
 
-  </div><audio id="player" controls class="fixed bottom-0 left-0 w-full"></audio>
+<button onclick="filterSongs('all')"
+class="bg-slate-800 px-4 py-2 rounded-xl">
+All
+</button>
+
+<button onclick="filterSongs('Gujarati Songs')"
+class="bg-slate-800 px-4 py-2 rounded-xl">
+Gujarati
+</button>
+
+<button onclick="filterSongs('Hindi Songs')"
+class="bg-slate-800 px-4 py-2 rounded-xl">
+Hindi
+</button>
+
+<button onclick="filterSongs('Devotional')"
+class="bg-slate-800 px-4 py-2 rounded-xl">
+Devotional
+</button>
+
+<button onclick="filterSongs('DJ Remix')"
+class="bg-slate-800 px-4 py-2 rounded-xl">
+DJ Remix
+</button>
+
+</div>
+
+<input id="search"
+class="w-full p-3 rounded-xl bg-slate-900 mb-4"
+placeholder="Search songs...">
+
+<div id="adminPanel"
+class="hide bg-slate-900 p-4 rounded-2xl mb-5">
+
+<h2 class="font-bold text-xl mb-3">
+Upload Song
+</h2>
+
+<div class="grid md:grid-cols-2 gap-3">
+
+<input id="title"
+class="p-3 rounded-xl bg-slate-800"
+placeholder="Song Title">
+
+<input id="singer"
+class="p-3 rounded-xl bg-slate-800"
+placeholder="Singer Name">
+
+<select id="category"
+class="p-3 rounded-xl bg-slate-800">
+
+<option>Gujarati Songs</option>
+<option>Hindi Songs</option>
+<option>Devotional</option>
+<option>DJ Remix</option>
+
+</select>
+
+<input id="thumbnail"
+type="file"
+accept="image/*"
+class="p-3 rounded-xl bg-slate-800">
+
+<input id="song"
+type="file"
+accept="audio/*"
+class="p-3 rounded-xl bg-slate-800">
+
+</div>
+
+<button onclick="uploadSong()"
+class="bg-cyan-500 px-5 py-3 rounded-xl mt-4">
+Upload
+</button>
+
+</div>
+
+<div id="songs"
+class="grid md:grid-cols-3 gap-4">
+</div>
+
+</div>
+
+<audio id="player"
+controls
+class="fixed bottom-0 left-0 w-full">
+</audio>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+  import {
+initializeApp
+} from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+query,
+orderBy
+} from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDA9uockP50yK8WtE-b9SNtDGth7AeEgjI',
-  authDomain: 'kakateastall-64dc3.firebaseapp.com',
-  projectId: 'kakateastall-64dc3',
-  storageBucket: 'kakateastall-64dc3.firebasestorage.app',
-  messagingSenderId: '724861765174',
-  appId: '1:724861765174:web:75805dadd5898ea4cd7a97'
+apiKey:
+'AIzaSyDA9uockP50yK8WtE-b9SNtDGth7AeEgjI',
+
+authDomain:
+'kakateastall-64dc3.firebaseapp.com',
+
+projectId:
+'kakateastall-64dc3',
+
+storageBucket:
+'kakateastall-64dc3.firebasestorage.app',
+
+messagingSenderId:
+'724861765174',
+
+appId:
+'1:724861765174:web:75805dadd5898ea4cd7a97'
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const CLOUD_NAME = 'djxxne8j0';
-const PRESET = 'gujarati_music_box';
+const app =
+initializeApp(firebaseConfig);
 
-async function uploadCloud(file, type='auto') {
- const fd = new FormData();
- fd.append('file', file);
- fd.append('upload_preset', PRESET);
- const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, {method:'POST', body:fd});
- return await r.json();
-}
+const db =
+getFirestore(app);
 
-window.uploadSong = async () => {
- const title = document.getElementById('title').value;
- const singer = document.getElementById('singer').value;
- const category = document.getElementById('category').value;
- const thumbnail = document.getElementById('thumbnail').files[0];
- const song = document.getElementById('song').files[0];
- if(!title || !singer || !thumbnail || !song) return alert('Fill all fields');
- alert('Uploading...');
- try {
-  const img = await uploadCloud(thumbnail,'image');
-  const audio = await uploadCloud(song,'video');
-  await addDoc(collection(db,'songs'), {
-    title, singer, category,
-    thumbnail: img.secure_url,
-    audio: audio.secure_url,
-    createdAt: Date.now()
-  });
-  alert('Song uploaded!');
-  loadSongs();
- } catch(e){
-  alert('Upload failed');
-  console.error(e);
- }
-}
+const CLOUD_NAME =
+'djxxne8j0';
 
-async function loadSongs(filter='') {
- const box = document.getElementById('songs');
- box.innerHTML = 'Loading...';
- const q = query(collection(db,'songs'), orderBy('createdAt','desc'));
- const snap = await getDocs(q);
- box.innerHTML = '';
- snap.forEach(doc => {
-   const s = doc.data();
-   if(filter && !s.title.toLowerCase().includes(filter.toLowerCase())) return;
-   box.innerHTML += `
-   <div class="bg-slate-900 p-3 rounded-2xl">
-    <img src="${s.thumbnail}" class="w-full h-52 object-cover rounded-xl">
-    <h3 class="font-bold text-lg mt-2">${s.title}</h3>
-    <p>${s.singer}</p>
-    <p class="text-cyan-400 text-sm">${s.category}</p>
-    <div class="flex gap-2 mt-3">
-      <button onclick="document.getElementById('player').src='${s.audio}';document.getElementById('player').play()" class="bg-cyan-500 px-3 py-2 rounded-lg">▶ Play</button>
-      <a href="${s.audio}" download class="bg-green-500 px-3 py-2 rounded-lg">⬇ Download</a>
-    </div>
-   </div>`;
- });
-}
+const PRESET =
+'gujarati_music_box';
 
-document.getElementById('search').addEventListener('input',e=>loadSongs(e.target.value));
+const ADMIN_PASSWORD =
+'GujaratiMusic#Box2026';
+
+let isAdmin = false;
+let currentFilter = 'all';
+
+
+window.adminLogin = () => {
+
+const p =
+prompt(
+'Enter Admin Password'
+);
+
+if (p === ADMIN_PASSWORD) {
+
+isAdmin = true;
+
+document
+.getElementById(
+'adminPanel'
+)
+.classList
+.remove('hide');
+
 loadSongs();
-</script></body>
+
+alert(
+'Admin Login Success'
+);
+
+} else {
+
+alert(
+'Wrong Password'
+);
+
+}
+};
+
+
+async function uploadCloud(
+file,
+type='auto'
+){
+
+const fd =
+new FormData();
+
+fd.append(
+'file',
+file
+);
+
+fd.append(
+'upload_preset',
+PRESET
+);
+
+const r =
+await fetch(
+`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`,
+{
+method:'POST',
+body:fd
+}
+);
+
+return await r.json();
+}
+
+
+window.uploadSong =
+async () => {
+
+const title =
+document.getElementById(
+'title'
+).value;
+
+const singer =
+document.getElementById(
+'singer'
+).value;
+
+const category =
+document.getElementById(
+'category'
+).value;
+
+const thumbnail =
+document.getElementById(
+'thumbnail'
+).files[0];
+
+const song =
+document.getElementById(
+'song'
+).files[0];
+
+if(
+!title ||
+!singer ||
+!thumbnail ||
+!song
+){
+return alert(
+'Fill all fields'
+);
+}
+
+alert(
+'Uploading...'
+);
+
+const img =
+await uploadCloud(
+thumbnail,
+'image'
+);
+
+const aud =
+await uploadCloud(
+song,
+'video'
+);
+
+await addDoc(
+collection(
+db,
+'songs'
+),
+{
+title,
+singer,
+category,
+
+thumbnail:
+img.secure_url,
+
+audio:
+aud.secure_url,
+
+createdAt:
+Date.now()
+}
+);
+
+alert(
+'Song Uploaded'
+);
+
+loadSongs();
+
+};
+  window.deleteSong =
+async (id) => {
+
+const ok =
+confirm(
+'Delete this song?'
+);
+
+if(!ok) return;
+
+await deleteDoc(
+doc(
+db,
+'songs',
+id
+)
+);
+
+loadSongs();
+};
+
+
+window.filterSongs =
+(category) => {
+
+currentFilter =
+category;
+
+loadSongs();
+};
+
+
+async function loadSongs(){
+
+const box =
+document.getElementById(
+'songs'
+);
+
+box.innerHTML =
+'Loading...';
+
+const snap =
+await getDocs(
+query(
+collection(
+db,
+'songs'
+),
+orderBy(
+'createdAt',
+'desc'
+)
+)
+);
+
+const search =
+document
+.getElementById(
+'search'
+)
+.value
+.toLowerCase();
+
+box.innerHTML =
+'';
+
+snap.forEach((d)=>{
+
+const s =
+d.data();
+
+if(
+currentFilter !== 'all' &&
+s.category !== currentFilter
+){
+return;
+}
+
+if(
+search &&
+!(
+`${s.title} ${s.singer}`
+.toLowerCase()
+.includes(search)
+)
+){
+return;
+}
+
+box.innerHTML += `
+<div class="song-card bg-slate-900 rounded-2xl p-3">
+
+<img
+src="${s.thumbnail}"
+class="w-full h-48 object-cover rounded-xl">
+
+<h3 class="font-bold mt-2 text-lg">
+${s.title}
+</h3>
+
+<p>
+${s.singer}
+</p>
+
+<p class="text-cyan-400 text-sm">
+${s.category}
+</p>
+
+<div class="flex gap-2 mt-3">
+
+<button
+onclick="
+document.getElementById('player').src='${s.audio}';
+document.getElementById('player').play()
+"
+class="bg-cyan-500 px-3 py-2 rounded-lg">
+
+▶ Play
+
+</button>
+
+<a
+href="${s.audio}"
+download
+class="bg-green-500 px-3 py-2 rounded-lg">
+
+⬇ Download
+
+</a>
+
+${isAdmin ? `
+
+<button
+onclick="deleteSong('${d.id}')"
+class="bg-red-600 px-3 py-2 rounded-lg">
+
+Delete
+
+</button>
+
+` : ''}
+
+</div>
+</div>
+`;
+
+});
+
+}
+
+
+document
+.getElementById(
+'search'
+)
+.addEventListener(
+'input',
+loadSongs
+);
+
+loadSongs();
+
+</script>
+
+</body>
 </html>
