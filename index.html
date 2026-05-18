@@ -972,8 +972,11 @@ e.target.closest('button');
 if(!btn) return;
 
 if(
-btn.innerText.includes('Play')
-){
+btn.innerText.includes('▶ Play')
+&&
+btn.id !== 'playPauseBtn'
+)
+{
 
 setTimeout(()=>{
 
