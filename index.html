@@ -1481,3 +1481,241 @@ updateFavorites();
 </script>
 
 <!-- REAL FAVORITES + TRENDING PART 2 END -->
+<!-- REAL GLOBAL PLAY COUNTER PART 1 -->
+
+<script type="module">
+
+import {
+doc,
+getDoc,
+setDoc,
+updateDoc,
+increment
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+window.realPlayCounter =
+async function(songTitle){
+
+try{
+
+const songRef =
+doc(
+db,
+"songPlays",
+songTitle
+);
+
+const snap =
+await getDoc(songRef);
+
+if(!snap.exists()){
+
+await setDoc(
+songRef,
+{
+title:songTitle,
+plays:1,
+updatedAt:Date.now()
+}
+);
+
+return 1;
+
+}else{
+
+await updateDoc(
+songRef,
+{
+plays:
+increment(1),
+updatedAt:
+Date.now()
+}
+);
+
+const updated =
+await getDoc(songRef);
+
+return updated.data()
+.plays;
+
+}
+
+}catch(e){
+
+console.log(e);
+
+return 0;
+
+}
+
+}
+
+
+window.getPlayCount =
+async function(songTitle){
+
+try{
+
+const songRef =
+doc(
+db,
+"songPlays",
+songTitle
+);
+
+const snap =
+await getDoc(songRef);
+
+if(
+snap.exists()
+){
+
+return snap.data()
+.plays || 0;
+
+}
+
+return 0;
+
+}catch(e){
+
+console.log(e);
+
+return 0;
+
+}
+
+}
+
+</script>
+
+<!-- REAL GLOBAL PLAY COUNTER PART 1 END -->
+<!-- REAL GLOBAL PLAY COUNTER PART 2 -->
+
+<script>
+
+setTimeout(()=>{
+
+const cards =
+document.querySelectorAll(
+'.song-card'
+);
+
+cards.forEach(
+async(card)=>{
+
+const title =
+card.querySelector(
+'h3'
+)?.innerText || '';
+
+if(!title) return;
+
+const playBtn =
+Array.from(
+card.querySelectorAll(
+'button'
+)
+).find(btn=>
+btn.innerText
+.includes('Play')
+);
+
+if(!playBtn) return;
+
+
+/* OLD COUNTER REMOVE */
+const oldCounter =
+card.querySelector(
+'.play-counter'
+);
+
+if(oldCounter){
+oldCounter.remove();
+}
+
+
+/* NEW REAL COUNTER */
+const counter =
+document.createElement(
+'div'
+);
+
+counter.className =
+'play-counter';
+
+counter.innerHTML =
+'▶ Loading...';
+
+card.appendChild(
+counter
+);
+
+
+/* GET REAL COUNT */
+const totalPlays =
+await window.getPlayCount(
+title
+);
+
+counter.innerHTML =
+'▶ ' +
+totalPlays +
+' Plays';
+
+
+/* PLAY CLICK */
+playBtn.addEventListener(
+'click',
+async()=>{
+
+counter.innerHTML =
+'▶ Updating...';
+
+const newCount =
+await window.realPlayCounter(
+title
+);
+
+counter.innerHTML =
+'▶ ' +
+newCount +
+' Plays';
+
+
+/* AUTO TRENDING */
+if(newCount >= 5 &&
+!card.querySelector(
+'.auto-trending'
+)){
+
+const trend =
+document.createElement(
+'div'
+);
+
+trend.className =
+'auto-trending';
+
+trend.innerHTML =
+'🔥 Auto Trending';
+
+card.appendChild(
+trend
+);
+
+}
+
+});
+
+});
+
+},2500);
+
+</script>
+
+<!-- REAL GLOBAL PLAY COUNTER PART 2 END -->
