@@ -1003,3 +1003,228 @@ image || thumb.src;
 </script>
 
 <!-- PREMIUM PLAYER CONNECT END -->
+<!-- FAVORITE + TRENDING SYSTEM PART 1 -->
+
+<style>
+
+.song-card{
+position:relative;
+overflow:hidden;
+}
+
+.favorite-btn{
+position:absolute;
+top:14px;
+right:14px;
+width:48px;
+height:48px;
+border-radius:50%;
+border:none;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(10px);
+font-size:24px;
+cursor:pointer;
+z-index:20;
+transition:.3s;
+}
+
+.favorite-btn:hover{
+transform:scale(1.08);
+}
+
+.favorite-btn.active{
+background:#ff004c;
+box-shadow:0 0 20px rgba(255,0,76,.45);
+}
+
+.trending-badge{
+position:absolute;
+top:14px;
+left:14px;
+background:linear-gradient(
+45deg,
+#ff7b00,
+#ff3300
+);
+padding:8px 14px;
+border-radius:999px;
+font-size:13px;
+font-weight:700;
+color:#fff;
+z-index:20;
+box-shadow:0 8px 20px rgba(255,85,0,.3);
+animation:pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge{
+0%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.08);
+}
+100%{
+transform:scale(1);
+}
+}
+
+.favorite-section{
+margin-top:30px;
+padding:20px;
+border-radius:30px;
+background:rgba(15,23,42,.6);
+backdrop-filter:blur(15px);
+display:none;
+}
+
+.favorite-title{
+font-size:28px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+</style>
+
+<section
+id="favoriteSection"
+class="favorite-section">
+
+<h2 class="favorite-title">
+❤️ My Favorite Songs
+</h2>
+
+<div id="favoriteSongs">
+</div>
+
+</section>
+
+<!-- FAVORITE + TRENDING SYSTEM PART 1 END -->
+<!-- FAVORITE + TRENDING SYSTEM PART 2 -->
+
+<script>
+
+setTimeout(()=>{
+
+const cards =
+document.querySelectorAll(
+'.song-card'
+);
+
+cards.forEach((card,index)=>{
+
+/* HEART BUTTON */
+const heart =
+document.createElement(
+'button'
+);
+
+heart.className =
+'favorite-btn';
+
+heart.innerHTML = '🤍';
+
+
+/* TRENDING BADGE */
+if(index < 3){
+
+const badge =
+document.createElement(
+'div'
+);
+
+badge.className =
+'trending-badge';
+
+badge.innerHTML =
+'🔥 Trending';
+
+card.appendChild(badge);
+
+}
+
+
+/* LOAD SAVED FAVORITES */
+const saved =
+JSON.parse(
+localStorage.getItem(
+'favoriteSongs'
+) || '[]'
+);
+
+const title =
+card.querySelector('h3')
+?.innerText || '';
+
+if(saved.includes(title)){
+
+heart.innerHTML = '❤️';
+heart.classList.add(
+'active'
+);
+
+}
+
+card.appendChild(
+heart
+);
+
+
+/* HEART CLICK */
+heart.onclick = function(){
+
+let favorites =
+JSON.parse(
+localStorage.getItem(
+'favoriteSongs'
+) || '[]'
+);
+
+const title =
+card.querySelector('h3')
+?.innerText || '';
+
+if(
+favorites.includes(title)
+){
+
+favorites =
+favorites.filter(
+x => x !== title
+);
+
+heart.innerHTML =
+'🤍';
+
+heart.classList.remove(
+'active'
+);
+
+}else{
+
+favorites.push(title);
+
+heart.innerHTML =
+'❤️';
+
+heart.classList.add(
+'active'
+);
+
+}
+
+localStorage.setItem(
+'favoriteSongs',
+JSON.stringify(
+favorites
+)
+);
+
+};
+
+});
+
+},1500);
+
+</script>
+
+<!-- FAVORITE + TRENDING SYSTEM PART 2 END -->
