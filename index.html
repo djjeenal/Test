@@ -1637,5 +1637,298 @@ e
 </script>
 
 <!-- REAL GLOBAL PLAY COUNTER FINAL FIX END -->
-</body>
-</html>
+<!-- PREMIUM PLAYER UPGRADE PART 1 -->
+
+<style>
+
+.player-controls-pro{
+display:flex;
+align-items:center;
+gap:12px;
+margin-top:12px;
+flex-wrap:wrap;
+}
+
+.pro-btn{
+border:none;
+background:
+linear-gradient(
+45deg,
+#06b6d4,
+#2563eb
+);
+padding:12px 18px;
+border-radius:18px;
+color:#fff;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+box-shadow:
+0 10px 20px
+rgba(6,182,212,.25);
+}
+
+.pro-btn:hover{
+transform:scale(1.08);
+}
+
+.now-playing-pro{
+margin-top:8px;
+font-size:13px;
+color:#94a3b8;
+}
+
+</style>
+
+
+<div
+class="player-controls-pro">
+
+<button
+id="prevSong"
+class="pro-btn">
+⏮ Prev
+</button>
+
+<button
+id="playPauseBtn"
+class="pro-btn">
+⏯ Play
+</button>
+
+<button
+id="nextSong"
+class="pro-btn">
+Next ⏭
+</button>
+
+</div>
+
+<div
+class="now-playing-pro"
+id="songCounterText">
+
+🎵 Premium Player Ready
+
+</div>
+
+<!-- PREMIUM PLAYER UPGRADE PART 1 END -->
+<!-- PREMIUM PLAYER UPGRADE PART 2 -->
+
+<script>
+
+window.songList = [];
+window.currentSongIndex = -1;
+
+setTimeout(()=>{
+
+const cards =
+document.querySelectorAll(
+'.song-card'
+);
+
+window.songList = [];
+
+cards.forEach(card=>{
+
+const playBtn =
+Array.from(
+card.querySelectorAll(
+'button'
+)
+).find(btn =>
+btn.innerText.includes(
+'Play'
+));
+
+if(!playBtn) return;
+
+const title =
+card.querySelector(
+'h3'
+)?.innerText || '';
+
+const image =
+card.querySelector(
+'img'
+)?.src || '';
+
+window.songList.push({
+card,
+playBtn,
+title,
+image
+});
+
+
+/* TRACK CURRENT SONG */
+playBtn.addEventListener(
+'click',
+()=>{
+
+window.currentSongIndex =
+window.songList.findIndex(
+x => x.playBtn === playBtn
+);
+
+document.getElementById(
+'songCounterText'
+).innerText =
+`🎵 Playing ${
+window.currentSongIndex + 1
+} of ${
+window.songList.length
+}`;
+
+});
+
+});
+
+},2500);
+
+</script>
+
+<!-- PREMIUM PLAYER UPGRADE PART 2 END -->
+<!-- PREMIUM PLAYER UPGRADE PART 3 -->
+
+<script>
+
+setTimeout(()=>{
+
+const premiumPlayer =
+document.getElementById(
+'premiumPlayer'
+);
+
+const playPauseBtn =
+document.getElementById(
+'playPauseBtn'
+);
+
+const nextBtn =
+document.getElementById(
+'nextSong'
+);
+
+const prevBtn =
+document.getElementById(
+'prevSong'
+);
+
+
+/* PLAY / PAUSE */
+playPauseBtn
+.addEventListener(
+'click',
+()=>{
+
+if(
+premiumPlayer.paused
+){
+
+premiumPlayer.play();
+
+playPauseBtn.innerText =
+'⏸ Pause';
+
+}else{
+
+premiumPlayer.pause();
+
+playPauseBtn.innerText =
+'▶ Play';
+
+}
+
+}
+);
+
+
+/* NEXT SONG */
+nextBtn
+.addEventListener(
+'click',
+()=>{
+
+if(
+window.songList.length === 0
+) return;
+
+window.currentSongIndex++;
+
+if(
+window.currentSongIndex >=
+window.songList.length
+){
+
+window.currentSongIndex = 0;
+
+}
+
+window.songList[
+window.currentSongIndex
+].playBtn.click();
+
+}
+);
+
+
+/* PREVIOUS SONG */
+prevBtn
+.addEventListener(
+'click',
+()=>{
+
+if(
+window.songList.length === 0
+) return;
+
+window.currentSongIndex--;
+
+if(
+window.currentSongIndex < 0
+){
+
+window.currentSongIndex =
+window.songList.length - 1;
+
+}
+
+window.songList[
+window.currentSongIndex
+].playBtn.click();
+
+}
+);
+
+
+/* AUTO NEXT SONG */
+premiumPlayer
+.addEventListener(
+'ended',
+()=>{
+
+window.currentSongIndex++;
+
+if(
+window.currentSongIndex >=
+window.songList.length
+){
+
+window.currentSongIndex = 0;
+
+}
+
+window.songList[
+window.currentSongIndex
+].playBtn.click();
+
+}
+);
+
+},3000);
+
+</script>
+
+<!-- PREMIUM PLAYER UPGRADE PART 3 END -->
