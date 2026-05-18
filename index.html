@@ -1851,20 +1851,17 @@ playPauseBtn.innerHTML =
 );
 
 
-/* AUTO BUTTON CHANGE */
-premiumPlayer.addEventListener(
-'play',
-()=>{
-
-playPauseBtn.innerHTML =
-'⏸ Pause';
-
-}
-);
-
 premiumPlayer.addEventListener(
 'pause',
 ()=>{
+
+const oldPlayer =
+document.getElementById('player');
+
+if(oldPlayer){
+oldPlayer.pause();
+oldPlayer.currentTime = 0;
+}
 
 playPauseBtn.innerHTML =
 '▶ Play';
