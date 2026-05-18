@@ -1481,177 +1481,57 @@ updateFavorites();
 </script>
 
 <!-- REAL FAVORITES + TRENDING PART 2 END -->
-<!-- REAL GLOBAL PLAY COUNTER PART 1 -->
+<!-- REAL GLOBAL PLAY COUNTER FINAL FIX -->
 
 <script type="module">
 
 import {
-getFirestore,
 doc,
 getDoc,
 setDoc,
 updateDoc,
-increment
+increment,
+getFirestore
 }
 from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-
-const db =
-getFirestore();
-
-
-window.realPlayCounter =
-async function(songTitle){
-
-try{
-
-const safeId =
-songTitle
-.replace(/[^a-zA-Z0-9]/g,'');
-
-const songRef =
-doc(
-db,
-"songPlays",
-safeId
-);
-
-const snap =
-await getDoc(songRef);
-
-if(!snap.exists()){
-
-await setDoc(
-songRef,
-{
-title:songTitle,
-plays:1
-}
-);
-
-return 1;
-
-}
-
-await updateDoc(
-songRef,
-{
-plays:
-increment(1)
-}
-);
-
-const updated =
-await getDoc(songRef);
-
-return updated.data()
-.plays || 0;
-
-}catch(e){
-
-console.log(
-"Firebase Error:",
-e
-);
-
-return 0;
-
-}
-
-}
-
-
-
-window.getPlayCount =
-async function(songTitle){
-
-try{
-
-const safeId =
-songTitle
-.replace(/[^a-zA-Z0-9]/g,'');
-
-const songRef =
-doc(
-db,
-"songPlays",
-safeId
-);
-
-const snap =
-await getDoc(songRef);
-
-if(
-snap.exists()
-){
-
-return snap.data()
-.plays || 0;
-
-}
-
-return 0;
-
-}catch(e){
-
-console.log(e);
-
-return 0;
-
-}
-
-}
-
-</script>
-
-<!-- REAL GLOBAL PLAY COUNTER PART 1 END -->
-<!-- REAL GLOBAL PLAY COUNTER PART 2 -->
-
-<script>
+const db = getFirestore();
 
 setTimeout(()=>{
 
-const cards =
-document.querySelectorAll(
-'.song-card'
-);
-
-cards.forEach(
-async(card)=>{
+document
+.querySelectorAll('.song-card')
+.forEach(async(card)=>{
 
 const title =
-card.querySelector(
-'h3'
-)?.innerText || '';
+card.querySelector('h3')
+?.innerText?.trim();
 
 if(!title) return;
 
 const playBtn =
 Array.from(
-card.querySelectorAll(
-'button'
-)
-).find(btn=>
-btn.innerText
-.includes('Play')
+card.querySelectorAll('button')
+).find(btn =>
+btn.innerText.includes('Play')
 );
 
 if(!playBtn) return;
 
 
-/* OLD COUNTER REMOVE */
-const oldCounter =
+/* remove old counter */
+const old =
 card.querySelector(
 '.play-counter'
 );
 
-if(oldCounter){
-oldCounter.remove();
+if(old){
+old.remove();
 }
 
 
-/* NEW REAL COUNTER */
+/* counter ui */
 const counter =
 document.createElement(
 'div'
@@ -1668,56 +1548,120 @@ counter
 );
 
 
-/* GET REAL COUNT */
-const totalPlays =
-await window.getPlayCount(
-title
+/* safe id */
+const songId =
+title.replace(
+/[^a-zA-Z0-9]/g,
+''
 );
+
+
+/* load count */
+try{
+
+const songRef =
+doc(
+db,
+'songPlays',
+songId
+);
+
+const snap =
+await getDoc(
+songRef
+);
+
+if(
+snap.exists()
+){
 
 counter.innerHTML =
 '▶ ' +
-totalPlays +
+(
+snap.data()
+.plays || 0
+) +
 ' Plays';
 
+}else{
 
-/* PLAY CLICK */
+counter.innerHTML =
+'▶ 0 Plays';
+
+}
+
+}catch(e){
+
+counter.innerHTML =
+'▶ 0 Plays';
+
+console.log(e);
+
+}
+
+
+/* play click */
 playBtn.addEventListener(
 'click',
 async()=>{
 
-counter.innerHTML =
-'▶ Updating...';
+try{
 
-const newCount =
-await window.realPlayCounter(
-title
+const songRef =
+doc(
+db,
+'songPlays',
+songId
+);
+
+const snap =
+await getDoc(
+songRef
+);
+
+if(
+!snap.exists()
+){
+
+await setDoc(
+songRef,
+{
+title:title,
+plays:1
+}
+);
+
+counter.innerHTML =
+'▶ 1 Plays';
+
+}else{
+
+await updateDoc(
+songRef,
+{
+plays:
+increment(1)
+}
+);
+
+const updated =
+await getDoc(
+songRef
 );
 
 counter.innerHTML =
 '▶ ' +
-newCount +
+updated.data()
+.plays +
 ' Plays';
 
+}
 
-/* AUTO TRENDING */
-if(newCount >= 5 &&
-!card.querySelector(
-'.auto-trending'
-)){
+}catch(e){
 
-const trend =
-document.createElement(
-'div'
-);
-
-trend.className =
-'auto-trending';
-
-trend.innerHTML =
-'🔥 Auto Trending';
-
-card.appendChild(
-trend
+console.log(
+'Play Count Error',
+e
 );
 
 }
@@ -1730,4 +1674,4 @@ trend
 
 </script>
 
-<!-- REAL GLOBAL PLAY COUNTER PART 2 END -->
+<!-- REAL GLOBAL PLAY COUNTER FINAL FIX END -->
