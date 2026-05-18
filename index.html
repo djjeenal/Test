@@ -1395,75 +1395,7 @@ const title =
 card.querySelector('h3')
 ?.innerText || '';
 
-/* PLAY COUNTER */
-let playCount =
-parseInt(
-localStorage.getItem(
-'plays_'+title
-) || '0'
-);
 
-let counter =
-document.createElement(
-'div'
-);
-
-counter.className =
-'play-counter';
-
-counter.innerHTML =
-'▶ ' +
-playCount +
-' Plays';
-
-card.appendChild(
-counter
-);
-
-
-/* AUTO TRENDING */
-if(playCount >= 5){
-
-const trend =
-document.createElement(
-'div'
-);
-
-trend.className =
-'auto-trending';
-
-trend.innerHTML =
-'🔥 Auto Trending';
-
-card.appendChild(
-trend
-);
-
-}
-
-
-/* PLAY CLICK */
-if(playBtn){
-
-playBtn.addEventListener(
-'click',
-()=>{
-
-playCount++;
-
-localStorage.setItem(
-'plays_'+title,
-playCount
-);
-
-counter.innerHTML =
-'▶ ' +
-playCount +
-' Plays';
-
-});
-
-}
 
 });
 
