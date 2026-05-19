@@ -1019,6 +1019,22 @@ oldPlayer.src;
 premiumPlayer.currentTime = 0;
 premiumPlayer.play();
 
+  /* SAVE SONG */
+localStorage.setItem(
+'currentSong',
+oldPlayer.src
+);
+
+localStorage.setItem(
+'currentSongTitle',
+title || 'Now Playing'
+);
+
+localStorage.setItem(
+'currentSongImage',
+image || ''
+);
+  
 const card =
 btn.closest('.song-card');
 
