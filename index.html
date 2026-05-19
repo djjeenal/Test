@@ -1527,8 +1527,14 @@ appId:
 '1:724861765174:web:75805dadd5898ea4cd7a97'
 };
 
+import {
+getApp
+}
+from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+
 const app =
-initializeApp(firebaseConfig);
+getApp();
 
 const db =
 getFirestore(app);
