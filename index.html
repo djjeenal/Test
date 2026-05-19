@@ -2087,6 +2087,24 @@ if(song){
 
 premiumPlayer.src = song;
 
+const savedTime =
+localStorage.getItem(
+'currentSongTime'
+);
+
+premiumPlayer.addEventListener(
+'loadedmetadata',
+()=>{
+
+if(savedTime){
+
+premiumPlayer.currentTime =
+savedTime;
+}
+
+}
+);
+  
 document.getElementById(
 'premiumSongTitle'
 ).innerText =
