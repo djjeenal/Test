@@ -1010,12 +1010,37 @@ oldPlayer.currentTime = 0;
 oldPlayer.volume = 0;
 oldPlayer.muted = true;
 
-/* NEW PLAYER PLAY */
+/* PREMIUM FAST PLAYER */
+
+premiumPlayer.pause();
+
 premiumPlayer.src =
 oldPlayer.src;
 
+premiumPlayer.load();
+
+premiumPlayer.oncanplay =
+async () => {
+
+try{
+
+await premiumPlayer.play();
+
+}catch(e){
+
+console.log(
+'Autoplay blocked',
+e
+);
+
+}
+
+};
+
 premiumPlayer.currentTime = 0;
-premiumPlayer.play();
+
+premiumPlayer.preload =
+'auto';
 
 /* SAVE CURRENT TIME */
 premiumPlayer.ontimeupdate = () => {
