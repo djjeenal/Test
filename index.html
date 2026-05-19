@@ -1185,6 +1185,14 @@ document.querySelectorAll(
 
 cards.forEach((card,index)=>{
 
+if(
+card.querySelector(
+'.favorite-btn'
+)
+){
+return;
+}
+  
 /* HEART BUTTON */
 const heart =
 document.createElement(
