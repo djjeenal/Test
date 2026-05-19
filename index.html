@@ -2046,3 +2046,56 @@ window.currentSongIndex
 </script>
 
 <!-- PREMIUM PLAYER UPGRADE PART 3 END -->
+
+<script>
+
+/* RESTORE SONG AFTER REFRESH */
+
+window.addEventListener(
+'load',
+()=>{
+
+const premiumPlayer =
+document.getElementById(
+'premiumPlayer'
+);
+
+const title =
+localStorage.getItem(
+'currentSongTitle'
+);
+
+const image =
+localStorage.getItem(
+'currentSongImage'
+);
+
+const song =
+localStorage.getItem(
+'currentSong'
+);
+
+if(song){
+
+premiumPlayer.src = song;
+
+document.getElementById(
+'premiumSongTitle'
+).innerText =
+title || 'Now Playing';
+
+document.getElementById(
+'playerThumbnail'
+).src =
+image ||
+'https://cdn-icons-png.flaticon.com/512/727/727245.png';
+
+}
+
+}
+);
+
+</script>
+
+</body>
+</html>
