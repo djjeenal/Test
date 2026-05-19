@@ -1016,6 +1016,16 @@ oldPlayer.src;
 
 premiumPlayer.currentTime = 0;
 premiumPlayer.play();
+
+/* SAVE CURRENT TIME */
+premiumPlayer.ontimeupdate = () => {
+
+localStorage.setItem(
+'currentSongTime',
+premiumPlayer.currentTime
+);
+
+};
   
 const card =
 btn.closest('.song-card');
