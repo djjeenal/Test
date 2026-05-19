@@ -1836,7 +1836,20 @@ document.getElementById(
 'prevSong'
 );
 
+const shuffleBtn =
+document.getElementById(
+'shuffleBtn'
+);
 
+const repeatBtn =
+document.getElementById(
+'repeatBtn'
+);
+
+let isShuffle = false;
+let isRepeat = false;
+
+  
 /* PLAY / PAUSE FIXED */
 playPauseBtn.addEventListener(
 'click',
@@ -1943,11 +1956,91 @@ window.currentSongIndex
 );
 
 
+/* SHUFFLE BUTTON */
+shuffleBtn.addEventListener(
+'click',
+()=>{
+
+isShuffle = !isShuffle;
+
+shuffleBtn.innerHTML =
+isShuffle
+? '✅ Shuffle On'
+: '🔀 Shuffle';
+
+}
+);
+
+
+/* REPEAT BUTTON */
+repeatBtn.addEventListener(
+'click',
+()=>{
+
+isRepeat = !isRepeat;
+
+repeatBtn.innerHTML =
+isRepeat
+? '✅ Repeat On'
+: '🔁 Repeat Off';
+
+}
+);
+
+
 /* AUTO NEXT SONG */
 premiumPlayer
 .addEventListener(
 'ended',
 ()=>{
+
+/* REPEAT SAME SONG */
+if(isRepeat){
+
+premiumPlayer.currentTime = 0;
+premiumPlayer.play();
+return;
+
+}
+
+
+/* SHUFFLE MODE */
+if(isShuffle){
+
+window.currentSongIndex =
+Math.floor(
+Math.random()
+*
+window.songList.length
+);
+
+window.songList[
+window.currentSongIndex
+].playBtn.click();
+
+return;
+
+}
+
+
+/* NORMAL NEXT */
+window.currentSongIndex++;
+
+if(
+window.currentSongIndex >=
+window.songList.length
+){
+
+window.currentSongIndex = 0;
+
+}
+
+window.songList[
+window.currentSongIndex
+].playBtn.click();
+
+}
+);
 
 window.currentSongIndex++;
 
