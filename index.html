@@ -215,6 +215,42 @@ Upload Song
 
 </section>
 
+<!-- REAL TRENDING SECTION -->
+
+<section class="max-w-7xl mx-auto px-4 mt-8">
+
+<div
+class="glass rounded-[35px] p-6">
+
+<div class="flex items-center justify-between mb-5">
+
+<h2 class="text-2xl md:text-3xl font-bold">
+🔥 Trending Today
+</h2>
+
+<span
+class="text-cyan-400 text-sm">
+Auto Updated
+</span>
+
+</div>
+
+<div
+id="trendingSongs"
+class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+<div class="text-slate-400">
+Loading Trending Songs...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- REAL TRENDING SECTION END -->
+  
 <!-- PLAYER -->
 <div class="fixed bottom-0 left-0 w-full glass border-t border-cyan-900/30 p-4 z-50">
 
@@ -1231,22 +1267,7 @@ heart.innerHTML = '🤍';
 
 
 /* TRENDING BADGE */
-if(index < 3){
 
-const badge =
-document.createElement(
-'div'
-);
-
-badge.className =
-'trending-badge';
-
-badge.innerHTML =
-'🔥 Trending';
-
-card.appendChild(badge);
-
-}
 
 
 /* LOAD SAVED FAVORITES */
