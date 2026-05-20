@@ -1624,10 +1624,9 @@ counter
 
 /* safe id */
 const songId =
-title.replace(
-/[^a-zA-Z0-9]/g,
-''
-);
+title
+.toLowerCase()
+.replace(/[^a-z0-9]/g,'_');
 
 
 /* load count */
