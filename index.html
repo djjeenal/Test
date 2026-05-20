@@ -2345,10 +2345,12 @@ trendingBox.innerHTML =
 
 }
 
-setTimeout(
-loadTrendingSongs,
-3000
-);
+loadTrendingSongs();
+
+/* AUTO REFRESH TRENDING */
+setInterval(() => {
+loadTrendingSongs();
+},5000);
 
 </script>
   
