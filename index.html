@@ -2224,10 +2224,9 @@ const song =
 songDoc.data();
 
 const songId =
-song.title.replace(
-/[^a-zA-Z0-9]/g,
-''
-);
+song.title
+.toLowerCase()
+.replace(/[^a-z0-9]/g,'_');
 
 let plays = 0;
 
