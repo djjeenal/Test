@@ -2159,5 +2159,195 @@ image ||
 
 </script>
 
+<script type="module">
+
+import {
+collection,
+getDocs,
+query,
+orderBy,
+limit,
+doc,
+getDoc,
+getFirestore
+}
+from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+import {
+getApp
+}
+from
+'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+
+const app =
+getApp();
+
+const db =
+getFirestore(app);
+
+
+async function loadTrendingSongs(){
+
+const trendingBox =
+document.getElementById(
+'trendingSongs'
+);
+
+if(!trendingBox) return;
+
+trendingBox.innerHTML =
+'Loading Trending Songs...';
+
+try{
+
+const songsSnap =
+await getDocs(
+query(
+collection(db,'songs'),
+orderBy(
+'createdAt',
+'desc'
+)
+)
+);
+
+let songs = [];
+
+for(const songDoc of songsSnap.docs){
+
+const song =
+songDoc.data();
+
+const songId =
+song.title.replace(
+/[^a-zA-Z0-9]/g,
+''
+);
+
+let plays = 0;
+
+try{
+
+const playRef =
+doc(
+db,
+'songPlays',
+songId
+);
+
+const playSnap =
+await getDoc(
+playRef
+);
+
+if(playSnap.exists()){
+
+plays =
+playSnap.data()
+.plays || 0;
+
+}
+
+}catch(e){
+
+console.log(e);
+
+}
+
+songs.push({
+
+id:songDoc.id,
+...song,
+plays,
+score: plays * 5
+
+});
+
+}
+
+/* SORT BY SCORE */
+songs.sort(
+(a,b)=>
+b.score - a.score
+);
+
+/* TOP 3 */
+const topSongs =
+songs.slice(0,3);
+
+trendingBox.innerHTML = '';
+
+topSongs.forEach(
+(song,index)=>{
+
+trendingBox.innerHTML += `
+
+<div class="song-card glass p-4 relative">
+
+<div
+class="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 rounded-full text-sm font-bold z-20">
+
+🔥 #${index+1} Trending
+
+</div>
+
+<img
+src="${song.thumbnail}"
+class="w-full h-[220px] object-cover rounded-[24px]"
+>
+
+<div class="mt-4">
+
+<h3 class="font-bold text-xl">
+${song.title}
+</h3>
+
+<p class="text-slate-300">
+${song.singer}
+</p>
+
+<p class="text-cyan-400 mt-2">
+▶ ${song.plays} Plays
+</p>
+
+<button
+onclick="
+document.getElementById('player').src='${song.audio}';
+document.getElementById('player').play();
+document.getElementById('nowPlaying').innerText='${song.title}';
+"
+class="mt-4 w-full bg-cyan-500 hover:bg-cyan-600 py-3 rounded-2xl font-bold">
+
+▶ Play Now
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}catch(e){
+
+console.log(e);
+
+trendingBox.innerHTML =
+'Trending failed to load';
+
+}
+
+}
+
+setTimeout(
+loadTrendingSongs,
+3000
+);
+
+</script>
+  
 </body>
 </html>
